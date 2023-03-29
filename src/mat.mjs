@@ -1,3 +1,5 @@
+import { multiply, identity, add, subtract, inv, lusolve, lup } from 'mathjs';
+
 const mat = {};
 /**
  * Transposes an mxn array
@@ -297,5 +299,13 @@ mat.QRDecomposition = function(A, B){
     }
     return mat.getSubMatrix(X,0,n-1,0,nx-1);
 }
+
+mat.multiply = function(a,b) {return multiply(a,b)._data;}
+mat.identity = function(a) {return identity(a)._data;}
+mat.add = function(a,b) {return add(a,b)._data;}
+mat.subtract = function(a,b) {return subtract(a,b)._data;}
+mat.inv = function(a) {return inv(a)._data;}
+mat.lusolve = function(a,b) {return lusolve(a,b)._data;}
+mat.lup = function(a) {return lup(a)._data;}
 
 export default mat;

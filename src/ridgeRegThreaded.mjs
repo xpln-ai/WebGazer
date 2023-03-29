@@ -1,6 +1,6 @@
 import util from './util';
 //CHNG- import numeric from 'numeric';
-import { multiply, identity } from 'mathjs';
+import mat from './mat';
 import util_regression from './util_regression';
 import params from './params';
 
@@ -47,6 +47,8 @@ reg.RidgeRegThreaded.prototype.init = function() {
         };  
         console.log('initialized worker');  
     }   
+
+    var multiply = mat.multiply, identity = mat.identity;
 
     // Initialize Kalman filter [20200608 xk] what do we do about parameters?   
     // [20200611 xk] unsure what to do w.r.t. dimensionality of these matrices. So far at least 

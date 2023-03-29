@@ -1,8 +1,6 @@
 import mat from './mat';
 import params from './params';
-//CHNG- import numeric from 'numeric';
-import { multiply, identity, add, subtract, inv, lusolve, lup } from 'mathjs';
- 
+//CHNG- import numeric from 'numeric'; 
 
 const util = {};
 

@@ -1,10 +1,10 @@
 import util from './util';
-import { multiply, identity, add, subtract, inv, lusolve, lup } from 'mathjs';
 //CHNG- import numeric from 'numeric';
 import mat from './mat';
 import params from './params';
 
 const util_regression = {};
+var loggedonce = false;
 
 
 /**
@@ -32,6 +32,8 @@ util_regression.InitRegression = function() {
 
   this.dataClicks = new util.DataWindow(dataWindow);
   this.dataTrail = new util.DataWindow(trailDataWindow);
+
+  var multiply = mat.multiply, identity = mat.identity;
 
   // Initialize Kalman filter [20200608 xk] what do we do about parameters?
   // [20200611 xk] unsure what to do w.r.t. dimensionality of these matrices. So far at least
@@ -98,7 +100,7 @@ util_regression.KalmanFilter = function(F, H, Q, R, P_initial, X_initial) {
 util_regression.KalmanFilter.prototype.update = function(z) {
     // Here, we define all the different matrix operations we will need
     //CHNG- var add = numeric.add, sub = numeric.sub, inv = numeric.inv, identity = numeric.identity;
-    var sub = subtract;
+    var sub = mat.subtract, add = mat.add, inv = mat.inv, identity = mat.identity;
     var mult = mat.mult, transpose = mat.transpose;
     //TODO cache variables like the transpose of H
 
@@ -156,7 +158,7 @@ util_regression.ridge = function(y, X, k){
                 console.log('Array length must be a multiple of m')
             }
             //CHNG- solution = (ss.length === ss[0].length ? (numeric.LUsolve(numeric.LU(ss,true),bb)) : (webgazer.mat.QRDecomposition(ss,bb)));
-            solution = (ss.length === ss[0].length ? (lusolve(lup(ss),bb)) : (webgazer.mat.QRDecomposition(ss,bb)));
+            solution = (ss.length === ss[0].length ? (mat.lusolve(mat.lup(ss),bb)) : (webgazer.mat.QRDecomposition(ss,bb)));
 
             for (var i = 0; i < nc; i++){
                 m_Coefficients[i] = solution[i];
@@ -165,7 +167,10 @@ util_regression.ridge = function(y, X, k){
         }
         catch (ex){
             k *= 10;
-            console.log(ex);
+            if (!loggedonce) {
+              console.log("wg error", ex);
+              loggedonce = true;
+            }
             success = false;
         }
     } while (!success);
