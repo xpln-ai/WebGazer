@@ -12,6 +12,7 @@
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "dev": "webpack --progress --config webpack.config.js --mode development",
+    "watch": "webpack --watch --progress --config webpack.config.js --mode development",
     "build": "webpack --progress --config webpack.config.js --mode production",
     "gen_docs": "jsdoc -c jsdoc.conf.json src/*"
   },
