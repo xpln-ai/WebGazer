@@ -46,10 +46,14 @@ const varConfig = {
 			events: {
 				onEnd: {
 					copy: [
+						/* xpln.ai 2023-11-19: Disable useless copy to ./www/
 			            { source: './dist/webgazer.js', destination: './www/' },
 			            { source: './dist/webgazer.js.map', destination: './www/' },
 			            { source: './dist/webgazer.js', destination: './www/data/src/' },
 			            { source: './dist/webgazer.js.map', destination: './www/data/src/' },
+						*/
+						// xpln.ai 2023-11-19: Instead we copy to our own chrome extension
+						{ source: './dist/webgazer.js', destination: '../xpln.ai/scripts_crea/chrome_extension/ext/webgazer/webgazer.js', options: { overwrite: true } },
 			        ],
 				},
 			},
