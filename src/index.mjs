@@ -57,9 +57,10 @@ var eventTypes = ['click', 'move'];
 //movelistener timeout clock parameters
 var moveClock = performance.now();
 //currently used tracker and regression models, defaults to clmtrackr and linear regression
-// xpln.ai 2023-11-19: Disable default TFFaceMesh tracker, because we use our own faceTracker!
-
-var curTracker = null; // new webgazer.tracker.TFFaceMesh();
+/* xpln.ai 2023-11-19: Disable default TFFaceMesh tracker, because we use our own faceTracker!
+var curTracker = new webgazer.tracker.TFFaceMesh();
+*/
+var curTracker = null; // xpln.ai 2023-11-19
 var regs = [new webgazer.reg.RidgeReg()];
 // var blinkDetector = new webgazer.BlinkDetector();
 
