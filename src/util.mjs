@@ -37,7 +37,8 @@ util.getEyeFeats = function(eyes) {
         this.equalizeHistogram(gray, 5, hist);
         return hist;
     };
-
+    // xpln.ai 2023-11-27: simply override data for ridge regression
+    if (eyes.ridgeRegData) return eyes.ridgeRegData;
     if (webgazer.params.trackEye == 'left') {
         return process(eyes.left);
     }
