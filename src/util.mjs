@@ -46,7 +46,7 @@ util.getEyeFeats = function(eyes) {
         return process(eyes.right);
     }
     else {
-        return [].concat(process(eyes.left), process(eyes.right));
+        return [].concat(process(eyes.left), process(eyes.right), eyes.ridgeRegExtra);
     }
 }
 
