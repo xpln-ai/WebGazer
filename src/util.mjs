@@ -24,6 +24,20 @@ util.Eye = function(patch, imagex, imagey, width, height) {
     this.height = height;
 };
 
+// xpln.ai 2024-02-26: normalize pixel values between 0 and 1
+util.normalize = function(arr, digits) {
+    var min = Infinity, max = -Infinity, precision = Math.pow(10, digits);
+    for (var i=0, imax=arr.length; i<imax; i++) {
+        if (min > arr[i]) min = arr[i];
+        if (max < arr[i]) max = arr[i];                
+    }
+    var range = max - min;
+    if (!range) return;
+    for (var i=0, imax=arr.length; i<imax; i++) {
+        arr[i] = Math.round(precision * (arr[i] - min) / range) / precision;
+    }
+};
+
 /**
  * Compute eyes size as gray histogram
  * @param {Object} eyes - The eyes where looking for gray histogram
@@ -35,6 +49,8 @@ util.getEyeFeats = function(eyes) {
         let gray = this.grayscale(resized.data, resized.width, resized.height);
         let hist = [];
         this.equalizeHistogram(gray, 5, hist);
+        // xpln.ai 2024-02-26: normalize pixel values between 0 and 1
+        if (eyes.normalize) this.normalize(hist, 3);
         return hist;
     };
     // xpln.ai 2023-11-27: simply override data for ridge regression
@@ -46,6 +62,7 @@ util.getEyeFeats = function(eyes) {
         return process(eyes.right);
     }
     else {
+        // xpln.ai 2024-02-09: add extra data for ridge regression
         return [].concat(process(eyes.left), process(eyes.right), eyes.ridgeRegExtra);
     }
 }
