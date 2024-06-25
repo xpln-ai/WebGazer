@@ -10,6 +10,7 @@ import TFFaceMesh from './facemesh.mjs';
 import Reg from './ridgeReg.mjs';
 import ridgeRegWeighted from './ridgeWeightedReg.mjs';
 import ridgeRegThreaded from './ridgeRegThreaded.mjs';
+import RidgeRegXpln from './ridgeRegXpln.mjs';
 import util from './util.mjs';
 
 const webgazer = {};
@@ -18,6 +19,7 @@ webgazer.tracker.TFFaceMesh = TFFaceMesh;
 webgazer.reg = Reg;
 webgazer.reg.RidgeWeightedReg = ridgeRegWeighted.RidgeWeightedReg;
 webgazer.reg.RidgeRegThreaded = ridgeRegThreaded.RidgeRegThreaded;
+webgazer.reg.RidgeRegXpln = RidgeRegXpln;
 webgazer.util = util;
 webgazer.params = params;
 
