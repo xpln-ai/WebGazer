@@ -16,25 +16,32 @@ const RidgeRegXpln = function() {
 RidgeRegXpln.prototype.init = util_regression.InitRegression
 
 /**
- * Add given data from eyes
- * @param {Object} eyes - eyes where extract data to add
+ * Add given data from features
+ * @param {Array} features - features where extract data to add
  * @param {Object} screenPos - The current screen point
  * @param {Object} type - The type of performed action
  */
-RidgeRegXpln.prototype.addData = function(eyes, screenPos, type) {
-  util_regression.addData.call(this, eyes, screenPos, type);
-  delete this.xCoef;
-  delete this.yCoef;
+RidgeRegXpln.prototype.addData = function(features, screenPos, type) {
+  if (!features) return;
+  if (type === 'click') {
+    this.screenXClicksArray.push([screenPos[0]]);
+    this.screenYClicksArray.push([screenPos[1]]);
+    this.eyeFeaturesClicks.push(features);
+    delete this.xCoef;
+    delete this.yCoef;
+  } else if (type === 'move') {
+    throw new Error('Not implemented!!!');
+  }
 };
 
 /**
  * Try to predict coordinates from pupil data
  * after apply linear regression on data set
- * @param {Object} features - The current user eyes features
+ * @param {Array} features - The current user features features
  * @returns {Object}
  */
-RidgeRegXpln.prototype.predict = function(eyesObj) {
-  if (!eyesObj || this.eyeFeaturesClicks.length === 0) {
+RidgeRegXpln.prototype.predict = function(features) {
+  if (!features || this.eyeFeaturesClicks.length === 0) {
     return null;
   }
 
@@ -45,7 +52,6 @@ RidgeRegXpln.prototype.predict = function(eyesObj) {
   if (!this.xCoef) this.xCoef = util_regression.ridge(screenXArray, eyeFeatures, this.ridgeParameter);
   if (!this.yCoef) this.yCoef = util_regression.ridge(screenYArray, eyeFeatures, this.ridgeParameter);
 
-  var features = util.getEyeFeats(eyesObj);
   var predictedX = 0;
   for(var i=0; i< features.length; i++){
     predictedX += features[i] * this.xCoef[i];
