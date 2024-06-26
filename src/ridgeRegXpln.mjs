@@ -45,20 +45,19 @@ RidgeRegXpln.prototype.predict = function(features) {
     return null;
   }
 
-  var screenXArray = this.screenXClicksArray.data;
-  var screenYArray = this.screenYClicksArray.data;
-  var eyeFeatures = this.eyeFeaturesClicks.data;
-
-  if (!this.xCoef) this.xCoef = util_regression.ridge(screenXArray, eyeFeatures, this.ridgeParameter);
-  if (!this.yCoef) this.yCoef = util_regression.ridge(screenYArray, eyeFeatures, this.ridgeParameter);
-
-  var predictedX = 0;
-  for(var i=0; i< features.length; i++){
-    predictedX += features[i] * this.xCoef[i];
+  if (!this.xCoef || !this.yCoef) {
+    var screenXArray = this.screenXClicksArray.data;
+    var screenYArray = this.screenYClicksArray.data;
+    var eyeFeatures = this.eyeFeaturesClicks.data;
+    this.xCoef = util_regression.ridge(screenXArray, eyeFeatures, this.ridgeParameter);
+    this.yCoef = util_regression.ridge(screenYArray, eyeFeatures, this.ridgeParameter);
   }
-  var predictedY = 0;
-  for(var i=0; i< features.length; i++){
-    predictedY += features[i] * this.yCoef[i];
+
+  var predictedX = 0, predictedY = 0, cx = this.xCoef, cy = this.yCoef;
+  for(var i=0; i< features.length; i++) {
+    var f = features[i];
+    predictedX += f * cx[i];
+    predictedY += f * cy[i];
   }
 
   return {
