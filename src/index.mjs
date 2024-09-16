@@ -10,6 +10,7 @@ import TFFaceMesh from './facemesh.mjs';
 import Reg from './ridgeReg.mjs';
 import ridgeRegWeighted from './ridgeWeightedReg.mjs';
 import ridgeRegThreaded from './ridgeRegThreaded.mjs';
+import RidgeRegXpln from './ridgeRegXpln.mjs';
 import util from './util.mjs';
 
 const webgazer = {};
@@ -18,6 +19,7 @@ webgazer.tracker.TFFaceMesh = TFFaceMesh;
 webgazer.reg = Reg;
 webgazer.reg.RidgeWeightedReg = ridgeRegWeighted.RidgeWeightedReg;
 webgazer.reg.RidgeRegThreaded = ridgeRegThreaded.RidgeRegThreaded;
+webgazer.reg.RidgeRegXpln = RidgeRegXpln;
 webgazer.util = util;
 webgazer.params = params;
 
@@ -57,7 +59,10 @@ var eventTypes = ['click', 'move'];
 //movelistener timeout clock parameters
 var moveClock = performance.now();
 //currently used tracker and regression models, defaults to clmtrackr and linear regression
+/* xpln.ai 2023-11-19: Disable default TFFaceMesh tracker, because we use our own faceTracker!
 var curTracker = new webgazer.tracker.TFFaceMesh();
+*/
+var curTracker = null; // xpln.ai 2023-11-19
 var regs = [new webgazer.reg.RidgeReg()];
 // var blinkDetector = new webgazer.BlinkDetector();
 
